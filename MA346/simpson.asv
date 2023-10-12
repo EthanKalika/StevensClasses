@@ -1,0 +1,39 @@
+% This function takes in f, a function handel or an array containing
+% fucntion outputs and a vector x containung the boundary points of a
+% partition of the interval of integration and outputs the simpson
+% approximation of the integral of f over the union of x
+function inte = simpson(f, x)
+% Case where f is a function handel
+if isa(f, "function_handle")
+    accumulator = 0;
+    multiplier = 0;
+    for i = 1:length(x)
+        width = (x(length(x)) - x(1)) / (length(x) - 1)
+        if (i == 1 | i == length(x))
+            multiplier = 1;
+        elseif (mod(i, 2) == 1)
+            multiplier = 4;
+        else
+            multiplier = 2;
+        end
+        % accumulator = accumulator + (x(i + 1) - x(i)) * multiplier * f((x(i) + x(i + 1)) / 2) / 3;
+        accumulator = accumulator +  * multiplier * f(x(i)) / 3;
+    end
+    inte = accumulator;
+    % Case where f is an array
+else
+    accumulator = 0;
+    counter = 0;
+    multiplier = 0;
+    for i = 1:(length(x) - 1)
+        if (i == 1 | i == length(x) - 1)
+            multiplier = 1;
+        elseif (mod(i, 2) == 1)
+            multiplier = 4;
+        else
+            multiplier = 2;
+        end
+        accumulator = accumulator + (x(i + 1) - x(i)) * multiplier * f(2 * i - 1) / 3;
+    end
+    inte = accumulator;
+end

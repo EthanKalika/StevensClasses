@@ -1,0 +1,24 @@
+%% Intitialization of variables
+intervalNums = [10, 20, 40, 80, 160];
+keyVal = (2 / 3) - (1 / (15 * 10^(1 / 2)));
+listOfTrapezErrors = [];
+listOfSimpsonErrors = [];
+%% Creation of arrays to plot
+for i = intervalNums
+    listOfBounds = [];
+    for j = 0:i
+        listOfBounds = [listOfBounds, 0.1 + 0.9 * j / i];
+    end
+    listOfTrapezErrors = [listOfTrapezErrors, abs(trapez(mF, listOfBounds) - keyVal)];
+    listOfSimpsonErrors = [listOfSimpsonErrors, abs(simpson(mF, listOfBounds) - keyVal)];
+end
+%% Plotting
+loglog(intervalNums, listOfTrapezErrors);
+hold on;
+loglog(intervalNums, listOfSimpsonErrors);
+legend('Tarpezoidal Error', 'Simpson Error');
+xlabel("Partitions")
+ylabel("Error")
+title("Errors of Integration Techniques")
+hold off;
+%% Calculation of leas
